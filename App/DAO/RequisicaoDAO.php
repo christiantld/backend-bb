@@ -2,7 +2,6 @@
 
 namespace App\DAO;
 
-use App\Models\ProdutoModel;
 use App\Models\RequisicaoModel;
 
 class ProdutoDAO extends Conexao
@@ -44,6 +43,7 @@ class ProdutoDAO extends Conexao
     $requisicao->setData_requisicao($requisicoes[0]['data_requisicao'])
       ->setFk_funcionario_solicitante($requisicoes[0]['fk_funcionario_solicitante'])
       ->setFk_funcionario_movimentacao($requisicoes[0]['fk_funcionario_movimentacao']);
+    return $requisicao;
   }
 
   public function insertRequisicao(RequisicaoModel $requisicao): void
@@ -55,7 +55,7 @@ class ProdutoDAO extends Conexao
               fk_funcionario_movimentacao)
               VALUES( 
               :data_requisicao, 
-              :fk_funcionario_solicitacao, 
+              :fk_funcionario_solicitante, 
               :fk_funcionario_movimentacao);
     ');
 
