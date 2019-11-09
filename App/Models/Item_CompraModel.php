@@ -21,6 +21,11 @@ final class Item_CompraModel
     private $qtd_item;
 
     /**
+     * @var float
+     */
+    private $valor_item;
+
+    /**
      * @var int
      */
     private $fk_produto;
@@ -123,6 +128,25 @@ final class Item_CompraModel
     public function setFk_compra(int $fk_compra): self
     {
         $this->fk_compra = $fk_compra;
+
+        return $this;
+    }
+
+    /**
+     * @return  float
+     */
+    public function getValor_item()
+    {
+        return $this->valor_item;
+    }
+
+    /**
+     * @param  float  $valor_item
+     * @return  self
+     */
+    public function setValor_item(float $valor_item)
+    {
+        $this->valor_item = $valor_item;
 
         return $this;
     }

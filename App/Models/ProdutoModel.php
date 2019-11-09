@@ -39,11 +39,6 @@ final class ProdutoModel
      */
     private $fk_categoria;
 
-    /**
-     * @var int
-     */
-    private $fk_fornecedor;
-
     //METODO
     /**
      * @return  int
@@ -155,25 +150,6 @@ final class ProdutoModel
     public function setFk_categoria(int $fk_categoria): self
     {
         $this->fk_categoria = $fk_categoria;
-
-        return $this;
-    }
-
-    /**
-     * @return  int
-     */
-    public function getFk_fornecedor(): int
-    {
-        return $this->fk_fornecedor;
-    }
-
-    /**
-     * @param  int  $fk_fornecedor
-     * @return  self
-     */
-    public function setFk_fornecedor(int $fk_fornecedor): self
-    {
-        $this->fk_produto = $fk_fornecedor;
 
         return $this;
     }

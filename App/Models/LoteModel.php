@@ -30,11 +30,6 @@ final class LoteModel
      */
     private $fk_produto;
 
-    /**
-     * @var float
-     */
-    private $valor_item;
-
     //METODOS
     /**
      * @return  int
@@ -127,25 +122,6 @@ final class LoteModel
     public function setFk_produto(int $fk_produto): self
     {
         $this->fk_produto = $fk_produto;
-
-        return $this;
-    }
-
-    /**
-     * @return  float
-     */
-    public function getValor_item(): float
-    {
-        return $this->valor_item;
-    }
-
-    /**
-     * @param  float  $valor_item
-     * @return  self
-     */
-    public function setValor_item(float $valor_item): self
-    {
-        $this->valor_item = $valor_item;
 
         return $this;
     }
