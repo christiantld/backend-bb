@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-final class FuncionarioModel
+final class UsuarioModel
 {
     //PROPRIEDADES
     /**
      * @var int
      */
-    private $pk_funcionario;
+    private $pk_usuario;
 
     /**
      * @var string
      */
-    private $no_funcionario;
+    private $no_usuario;
 
     /**
      * @var int
@@ -44,18 +44,18 @@ final class FuncionarioModel
     /**
      * @return  int
      */
-    public function getPk_funcionario(): int
+    public function getPk_usuario(): int
     {
-        return $this->pk_funcionario;
+        return $this->pk_usuario;
     }
 
     /**
-     * @param  int  $pk_funcionario
+     * @param  int  $pk_usuario
      * @return  self
      */
-    public function setPk_funcionario(int $pk_funcionario): self
+    public function setPk_usuario(int $pk_usuario): self
     {
-        $this->pk_funcionario = $pk_funcionario;
+        $this->pk_usuario = $pk_usuario;
 
         return $this;
     }
@@ -63,18 +63,18 @@ final class FuncionarioModel
     /**
      * @return string
      */
-    public function getNo_funcionario(): string
+    public function getNo_usuario(): string
     {
-        return $this->no_funcionario;
+        return $this->no_usuario;
     }
 
     /**
-     * @param string  $no_funcionario
+     * @param string  $no_usuario
      * @return self
      */
-    public function setNo_funcionario(string $no_funcionario): self
+    public function setNo_usuario(string $no_usuario): self
     {
-        $this->no_funcionario = $no_funcionario;
+        $this->no_usuario = $no_usuario;
 
         return $this;
     }

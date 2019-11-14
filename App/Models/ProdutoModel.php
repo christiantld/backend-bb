@@ -17,6 +17,11 @@ final class ProdutoModel
     /**
      * @var string
      */
+    private $marca;
+
+    /**
+     * @var string
+     */
     private $descricao;
 
     /**
@@ -27,12 +32,12 @@ final class ProdutoModel
     /**
      * @var int
      */
-    private $qtd_total;
+    private $qtd_max;
 
     /**
-     * @var float
+     * @var int
      */
-    private $valor_produto;
+    private $qtd_total;
 
     /**
      * @var int
@@ -81,6 +86,25 @@ final class ProdutoModel
     /**
      * @return  string
      */
+    public function getMarca()
+    {
+        return $this->marca;
+    }
+
+    /**
+     * @param  string  $marca
+     * @return  self
+     */
+    public function setMarca(string $marca)
+    {
+        $this->marca = $marca;
+
+        return $this;
+    }
+
+    /**
+     * @return  string
+     */
     public function getDescricao(): string
     {
         return $this->descricao;
@@ -117,39 +141,20 @@ final class ProdutoModel
     }
 
     /**
-     * @return  float
-     */
-    public function getValor_produto(): float
-    {
-        return $this->valor_produto;
-    }
-
-    /**
-     * @param  float  $valor_produto
-     * @return  self
-     */
-    public function setValor_produto(float $valor_produto): self
-    {
-        $this->valor_produto = $valor_produto;
-
-        return $this;
-    }
-
-    /**
      * @return  int
      */
-    public function getFk_categoria(): int
+    public function getQtd_max()
     {
-        return $this->fk_categoria;
+        return $this->qtd_max;
     }
 
     /**
-     * @param  int  $fk_categoria
+     * @param  int  $qtd_max
      * @return  self
      */
-    public function setFk_categoria(int $fk_categoria): self
+    public function setQtd_max(int $qtd_max)
     {
-        $this->fk_categoria = $fk_categoria;
+        $this->qtd_max = $qtd_max;
 
         return $this;
     }
@@ -169,6 +174,25 @@ final class ProdutoModel
     public function setQtd_total(int $qtd_total)
     {
         $this->qtd_total = $qtd_total;
+
+        return $this;
+    }
+
+    /**
+     * @return  int
+     */
+    public function getFk_categoria(): int
+    {
+        return $this->fk_categoria;
+    }
+
+    /**
+     * @param  int  $fk_categoria
+     * @return  self
+     */
+    public function setFk_categoria(int $fk_categoria): self
+    {
+        $this->fk_categoria = $fk_categoria;
 
         return $this;
     }

@@ -24,7 +24,7 @@ final class TokenModel
   /**
    * @var int
    */
-  private $fk_funcionario;
+  private $fk_usuario;
   /**
    * @var int
    */
@@ -110,18 +110,20 @@ final class TokenModel
   /**
    * @return  int
    */
-  public function getFk_funcionario(): int
+  public function getFk_usuario(): int
   {
-    return $this->fk_funcionario;
+    return $this->fk_usuario;
   }
 
   /**
-   * @param  int  $fk_funcionario
+   * @param  int  $fk_usuario
+   
    * @return  self
    */
-  public function setFk_funcionario(int $fk_funcionario): self
+  public function setFk_usuario(int $fk_usuario): self
   {
-    $this->fk_funcionario = $fk_funcionario;
+    $this->fk_usuario
+      = $fk_usuario;
 
     return $this;
   }

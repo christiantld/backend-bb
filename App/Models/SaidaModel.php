@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-final class Item_RequisicaoModel
+final class SaidaModel
 {
     //PROPRIEDADES
     /**
      * @var int
      */
-    private $pk_item_requisicao;
+    private $pk_saida;
 
     /**
      * @var int
@@ -16,9 +16,14 @@ final class Item_RequisicaoModel
     private $qtd_item;
 
     /**
+     * @var string
+     */
+    private $data_saida;
+
+    /**
      * @var int
      */
-    private $fk_requisicao;
+    private $fk_usuario;
 
     /**
      * @var int
@@ -29,18 +34,18 @@ final class Item_RequisicaoModel
     /**
      * @return  int
      */
-    public function getPk_item_requisicao(): int
+    public function getPk_saida(): int
     {
-        return $this->pk_item_requisicao;
+        return $this->pk_saida;
     }
 
     /**
-     * @param  int  $pk_item_requisicao
+     * @param  int  $pk_saida
      * @return  self
      */
-    public function setPk_item_requisicao(int $pk_item_requisicao): self
+    public function setPk_saida(int $pk_saida): self
     {
-        $this->pk_item_requisicao = $pk_item_requisicao;
+        $this->pk_saida = $pk_saida;
 
         return $this;
     }
@@ -65,20 +70,20 @@ final class Item_RequisicaoModel
     }
 
     /**
-     * @return  int
+     * @return  string
      */
-    public function getFk_requisicao(): int
+    public function getData_saida()
     {
-        return $this->fk_requisicao;
+        return $this->data_saida;
     }
 
     /**
-     * @param  int  $fk_requisicao
+     * @param  string  $data_saida
      * @return  self
      */
-    public function setFk_requisicao(int $fk_requisicao): self
+    public function setData_saida(string $data_saida)
     {
-        $this->fk_requisicao = $fk_requisicao;
+        $this->data_saida = $data_saida;
 
         return $this;
     }
@@ -98,6 +103,25 @@ final class Item_RequisicaoModel
     public function setFk_produto(int $fk_produto): self
     {
         $this->fk_produto = $fk_produto;
+
+        return $this;
+    }
+
+    /**
+     * @return  int
+     */
+    public function getFk_usuario(): int
+    {
+        return $this->fk_usuario;
+    }
+
+    /**
+     * @param  int  $fk_usuario
+     * @return  self
+     */
+    public function setFk_usuario(int $fk_usuario): self
+    {
+        $this->fk_usuario = $fk_usuario;
 
         return $this;
     }

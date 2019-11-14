@@ -19,14 +19,14 @@ class TokensDAO extends Conexao
         token, 
         refresh_token, 
         expire_at, 
-        fk_funcionario
+        fk_usuario
       )
       VALUES
       (
         :token,
         :refresh_token,
         :expire_at,
-        :fk_funcionario
+        :fk_usuario
       );
       ');
 
@@ -34,7 +34,7 @@ class TokensDAO extends Conexao
       'token' => $token->getToken(),
       'refresh_token' => $token->getRefresh_token(),
       'expire_at' => $token->getExpire_at(),
-      'fk_funcionario' => $token->getFk_funcionario()
+      'fk_usuario' => $token->getFk_usuario()
     ]);
   }
 

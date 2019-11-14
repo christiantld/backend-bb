@@ -2,13 +2,13 @@
 
 namespace App\Models;
 
-final class Item_CompraModel
+final class EntradaModel
 {
     //PROPRIEDADES
     /**
      * @var int
      */
-    private $pk_item_compra;
+    private $pk_entrada;
 
     /**
      * @var string
@@ -33,25 +33,30 @@ final class Item_CompraModel
     /**
      * @var int
      */
-    private $fk_compra;
+    private $fk_usuario;
+
+    /**
+     * @var int
+     */
+    private $fk_fornecedor;
 
 
     //METODOS
     /**
      * @return  int
      */
-    public function getPk_item_compra(): int
+    public function getPk_entrada(): int
     {
-        return $this->pk_item_compra;
+        return $this->pk_entrada;
     }
 
     /**
-     * @param  int  $pk_item_compra
+     * @param  int  $pk_entrada
      * @return  self
      */
-    public function setPk_item_compra(int $pk_item_compra): self
+    public function setPk_entrada(int $pk_entrada): self
     {
-        $this->pk_item_compra = $pk_item_compra;
+        $this->pk_entrada = $pk_entrada;
 
         return $this;
     }
@@ -114,20 +119,20 @@ final class Item_CompraModel
     }
 
     /**
-     * @return  int
+     * @return int
      */
-    public function getFk_compra(): int
+    public function getFk_usuario(): int
     {
-        return $this->fk_compra;
+        return $this->fk_usuario;
     }
 
     /**
-     * @param  int  $fk_compra
+     * @param  int  $fk_usuario
      * @return  self
      */
-    public function setFk_compra(int $fk_compra): self
+    public function setFk_usuario(int $fk_usuario): self
     {
-        $this->fk_compra = $fk_compra;
+        $this->fk_usuario = $fk_usuario;
 
         return $this;
     }
@@ -147,6 +152,25 @@ final class Item_CompraModel
     public function setValor_item(float $valor_item)
     {
         $this->valor_item = $valor_item;
+
+        return $this;
+    }
+
+    /**
+     * @return  int
+     */
+    public function getFk_fornecedor()
+    {
+        return $this->fk_fornecedor;
+    }
+
+    /**
+     * @param  int  $fk_fornecedor
+     * @return  self
+     */
+    public function setFk_fornecedor(int $fk_fornecedor)
+    {
+        $this->fk_fornecedor = $fk_fornecedor;
 
         return $this;
     }

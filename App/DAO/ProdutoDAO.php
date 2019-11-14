@@ -16,10 +16,12 @@ class ProdutoDAO extends Conexao
       'SELECT  
       no_produto,
       descricao,
-      qtd_minima
+      marca,
+      qtd_minima,
+      qtd_max,
       qtd_total,
-      fk_categoria,
-      fk_fornecedor
+      fk_categoria
+      
       FROM tb_produto
       WHERE pk_produto = :id;'
     );
@@ -32,11 +34,12 @@ class ProdutoDAO extends Conexao
 
     $produto = new ProdutoModel();
     $produto->setNo_Produto($produtos[0]['no_produto'])
+      ->setMarca($produtos[0]['marca'])
       ->setDescricao($produto[0]['descricao'])
       ->setQtd_minima($produtos[0]['qtd_minima'])
+      ->setQtd_max($produtos[0]['qtd_max'])
       ->setQtd_total($produtos[0]['qtd_total'])
-      ->setFk_categoria($produtos[0]['fk_categoria'])
-      ->setFk_fornecedor($produtos[0]['fk_fornecedor']);
+      ->setFk_categoria($produtos[0]['fk_categoria']);
     return $produto;
   }
 
@@ -45,7 +48,7 @@ class ProdutoDAO extends Conexao
     $produtos = $this->pdo
       ->query('SELECT 
               *
-              FROM tb_Produto;')
+              FROM tb_produto;')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $produtos;
@@ -54,24 +57,26 @@ class ProdutoDAO extends Conexao
   public function insertProduto(ProdutoModel $produto): void
   {
     $statement = $this->pdo
-      ->prepare('INSERT INTO tb_produto (no_produto, descricao, qtd_minima, 
-                            qtd_total, fk_categoria, fk_fornecedor) 
+      ->prepare('INSERT INTO tb_produto (no_produto, marca, descricao, qtd_minima, qtd_max, 
+                            qtd_total, fk_categoria) 
                   VALUES(
                   :no_produto,
+                  :marca,
                   :descricao,
                   :qtd_minima,
+                  :qtd_max
                   :qtd_total,
-                  :fk_categoria,
-                  :fk_fornecedor
+                  :fk_categoria
             );');
 
     $statement->execute([
       'no_produto' => $produto->getNo_Produto(),
+      'marca' => $produto->getMarca(),
       'descricao' => $produto->getDescricao(),
       'qtd_minima' => $produto->getQtd_minima(),
+      'qtd_max' => $produto->getQtd_max(),
       'qtd_total' => $produto->getQtd_total(),
-      'fk_catogoria' => $produto->getFk_categoria(),
-      'fk_fornecedor' => $produto->getFk_fornecedor()
+      'fk_catogoria' => $produto->getFk_categoria()
     ]);
   }
 
@@ -80,12 +85,13 @@ class ProdutoDAO extends Conexao
     $statement = $this->pdo
       ->prepare('UPDATE tb_produto SET 
       pk_produto = :pk_produto,
-      no_produto = :no_produto
+      no_produto = :no_produto,
+      marca = :marca,
       descricao = :descricao,
       qtd_minima = :qtd_minima,
+      qtd_max = :qtd_max,
       qtd_total = :qtd_total,
-      fk_categoria = :fk_cateforia,
-      fk_fornecedor = :fk_fornecedor
+      fk_categoria = :fk_cateforia
       WHERE 
           pk_produto = :pk_produto 
         ;');
@@ -93,18 +99,20 @@ class ProdutoDAO extends Conexao
     $statement->execute([
       'pk_produto' => $produto->getPk_produto(),
       'no_produto' => $produto->getNo_Produto(),
+      'marca' => $produto->getMarca(),
       'descricao' => $produto->getDescricao(),
       'qtd_minima' => $produto->getQtd_minima(),
+      'qtd_max' => $produto->getQtd_max(),
       'qtd_total' => $produto->getQtd_total(),
-      'fk_catogoria' => $produto->getFk_categoria(),
-      'fk_fornecedor' => $produto->getFk_fornecedor()
+      'fk_catogoria' => $produto->getFk_categoria()
     ]);
   }
 
   public function deleteProduto(int $pk_produto): void
   {
     $statement = $this->pdo
-      ->prepare('DELETE FROM tb_produto WHERE pk_produto = :id;');
+      ->prepare('DELETE FROM tb_lote WHERE fk_produto = :id;
+      DELETE FROM tb_produto WHERE pk_produto = :id;');
 
     $statement->execute([
       'id' => $pk_produto

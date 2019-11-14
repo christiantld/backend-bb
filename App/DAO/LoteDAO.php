@@ -29,7 +29,6 @@ class LoteDAO extends Conexao
     data_fabricacao,
     lote,
     data_validade,
-    valor_item,
     fk_produto
     FROM tb_lote WHERE pk_lote = :id;
     '
@@ -45,8 +44,7 @@ class LoteDAO extends Conexao
     $lote = new LoteModel();
     $lote->setData_fabricacao($lotes[0]['data_fabricacao'])
       ->setLote($lotes[0]['lote'])
-      ->setData_validade($lotes[0]['lote'])
-      ->setValor_item($lote[0]['valor_item'])
+      ->setData_validade($lotes[0]['data_validade'])
       ->setFk_produto($lote[0]['fk_produto']);
     return $lote;
   }
@@ -57,19 +55,19 @@ class LoteDAO extends Conexao
       ->prepare('INSERT INTO tb_lote (
         data_fabricacao,
         lote,
-        valor_item,
+        data_validade,
         fk_produto)
         VALUES (
           :data_fabricacao,
           :lote,
-          :valor_item,
+          :data_validade,
           :fk_produto);
     ');
 
     $statement->execute([
       'data_fabricacao' => $lote->getData_fabricacao(),
       'lote' => $lote->getLote(),
-      'valor_item' => $lote->getValor_item(),
+      'data_validade' => $lote->getData_validade(),
       'fk_produto' => $lote->getFk_produto()
     ]);
   }
@@ -81,7 +79,7 @@ class LoteDAO extends Conexao
     pk_lote = :pk_lote,
     data_fabricacao = :data_fabricacao,
     lote = :lote,
-    valor_item = :valor_item,
+    data_validade= :data_validade,
     fk_produto = :fk_produto
     WHERE
     pk_lote = :pk_lote;
@@ -91,7 +89,7 @@ class LoteDAO extends Conexao
       'pk_lote' => $lote->getPk_lote(),
       'data_fabricacao' => $lote->getData_fabricacao(),
       'lote' => $lote->getLote(),
-      'valor_item' => $lote->getValor_item(),
+      'data_validade' => $lote->getData_validade(),
       'fk_produto' => $lote->getFk_produto()
     ]);
   }
