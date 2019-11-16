@@ -64,7 +64,7 @@ class ProdutoDAO extends Conexao
                   :marca,
                   :descricao,
                   :qtd_minima,
-                  :qtd_max
+                  :qtd_max,
                   :qtd_total,
                   :fk_categoria
             );');

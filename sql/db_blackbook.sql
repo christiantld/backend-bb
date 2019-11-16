@@ -345,14 +345,14 @@ DROP TABLE IF EXISTS `db_blackbook2`.`tb_produto_fornecedor` ;
 CREATE TABLE
 IF NOT EXISTS `db_blackbook2`.`tb_produto_fornecedor`
 (
-  `Pk_produto_fornecedor` INT
+  `pk_produto_fornecedor` INT
 (8) UNSIGNED NOT NULL,
   `fk_produto` INT
 (8) UNSIGNED NOT NULL,
   `fk_fornecedor` INT
 (8) UNSIGNED NOT NULL,
   PRIMARY KEY
-(`Pk_produto_fornecedor`),
+(`pk_produto_fornecedor`),
   CONSTRAINT `fk_table1_tb_produto1`
     FOREIGN KEY
 (`fk_produto`)

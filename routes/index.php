@@ -2,7 +2,7 @@
 
 use App\Controllers\AuthController;
 use App\Controllers\FornecedorController;
-use App\Controllers\FuncionarioController;
+use App\Controllers\UsuarioController;
 use App\Controllers\ProdutoController;
 use App\Controllers\LojaController;
 use App\Middlewares\JwtDateTimeMiddleware;
@@ -23,14 +23,12 @@ $app->post('/refresh-token', AuthController::class . ':refreshToken');
 
 
 
-//Rotas Funcionarios
-$app->get('/funcionarios', FuncionarioController::class . ':getFuncionarios');
-$app->post('/registrar', FuncionarioController::class . ':insertFuncionario');
-$app->put('/funcionario', FuncionarioController::class . ':updateFuncionario');
-$app->delete('/funcionario', FuncionarioController::class . ':deleteFuncionario');
-$app->get('/funcionario', FuncionarioController::class . ':getFuncionarioByEmail')
-  ->add(new JwtDateTimeMiddleware())
-  ->add(jwtAuth());
+//Rotas Usuarios
+$app->get('/usuarios', UsuarioController::class . ':getUsuarios');
+$app->post('/registrar', UsuarioController::class . ':insertUsuario');
+$app->put('/usuario', UsuarioController::class . ':updateUsuario');
+$app->delete('/usuario', UsuarioController::class . ':deleteUsuario');
+$app->get('/usuario', UsuarioController::class . ':getUsuarioByEmail');
 
 //Rotas Fornecedor
 $app->post('/fornecedor', FornecedorController::class . ':insertFornecedor');

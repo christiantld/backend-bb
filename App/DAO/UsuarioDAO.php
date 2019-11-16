@@ -81,7 +81,7 @@ class UsuarioDAO extends Conexao
     ]);
   }
 
-  public function updateLoja(UsuarioModel $usuario): void
+  public function updateUsuario(UsuarioModel $usuario): void
   {
     $statement = $this->pdo
       ->prepare(
@@ -90,7 +90,7 @@ class UsuarioDAO extends Conexao
       no_usuario = :no_usuario,
       nu_cpf = :nu_cpf,
       telefone = :telefone,
-      senha = :senha,
+      email = :email,
       fk_cargo = :fk_cargo
       WHERE 
           pk_usuario = :pk_usuario ;'
@@ -101,7 +101,7 @@ class UsuarioDAO extends Conexao
       'no_usuario' => $usuario->getNo_usuario(),
       'nu_cpf' => $usuario->getNu_cpf(),
       'telefone' => $usuario->getTelefone(),
-      'senha' => $usuario->getSenha(),
+      'email' => $usuario->getEmail(),
       'fk_cargo' => $usuario->getFk_cargo()
     ]);
   }

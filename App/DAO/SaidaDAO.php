@@ -67,7 +67,7 @@ class SaidaDAO extends Conexao
       'qtd_item' => $saida->getQtd_item(),
       'data_saida' => $saida->getData_saida(),
       'fk_produto' => $saida->getFk_produto(),
-      'fk_usuario' => $saida->getFk_usuario(),
+      'fk_usuario' => $saida->getFk_usuario()
     ]);
   }
 
@@ -89,7 +89,7 @@ class SaidaDAO extends Conexao
       'qtd_item' => $saida->getQtd_item(),
       'data_saida' => $saida->getData_saida(),
       'fk_produto' => $saida->getFk_produto(),
-      'fk_usuario' => $saida->getFk_usuario(),
+      'fk_usuario' => $saida->getFk_usuario()
     ]);
   }
 

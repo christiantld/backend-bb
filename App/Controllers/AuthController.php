@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\DAO\TokensDAO;
-use App\DAO\FuncionarioDAO;
+use App\DAO\UsuarioDAO;
 use App\Models\TokenModel;
 use DateTime;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -19,12 +19,12 @@ final class AuthController
     $email = $data['email'];
     $senha = $data['senha'];
 
-    $funcionarioDAO = new FuncionarioDAO();
-    $funcionario = $funcionarioDAO->getFuncionarioByEmail($email);
-    if (is_null($funcionario))
+    $usuarioDAO = new UsuarioDAO();
+    $usuario = $usuarioDAO->getUsuarioByEmail($email);
+    if (is_null($usuario))
       return $response->withStatus(401);
 
-    $hash = $funcionario->getSenha();
+    $hash = $usuario->getSenha();
     if (!password_verify($senha, $hash))
       return $response->withStatus(401);
 
@@ -32,17 +32,17 @@ final class AuthController
       ->format('Y-m-d H:i:s');
 
     $tokenPayload = [
-      'id' => $funcionario->getPk_funcionario(),
-      'name' => $funcionario->getNo_funcionario(),
-      'email' => $funcionario->getEmail(),
-      'cargo' => $funcionario->getFk_cargo(),
+      'id' => $usuario->getPk_usuario(),
+      'name' => $usuario->getNo_usuario(),
+      'email' => $usuario->getEmail(),
+      'cargo' => $usuario->getFk_cargo(),
       'expire_at' => $expiredAt
     ];
-
+    // Gera um Token
     $token = JWT::encode($tokenPayload, getenv('JWT_SECRET_KEY'));
 
     $refreshTokenPayload = [
-      'email' => $funcionario->getEmail(),
+      'email' => $usuario->getEmail(),
       'random' => uniqid()
     ];
 
@@ -52,7 +52,7 @@ final class AuthController
     $tokenModel->setExpire_at($expiredAt)
       ->setRefresh_token($refreshToken)
       ->setToken($token)
-      ->setFk_funcionario($funcionario->getPk_funcionario());
+      ->setFk_usuario($usuario->getPk_usuario());
 
     $tokenDAO = new TokensDAO();
     $tokenDAO->createToken($tokenModel);
@@ -80,26 +80,26 @@ final class AuthController
     $refreshTokenExists = $tokensDAO->verifyRefreshToken($refreshToken);
     if (!$refreshTokenExists)
       return $response->withStatus(401);
-    $funcionarioDAO = new FuncionarioDAO();
-    $funcionario = $funcionarioDAO->getFuncionarioByEmail($refreshTokenDecoded->email);
+    $usuarioDAO = new UsuarioDAO();
+    $usuario = $usuarioDAO->getUsuarioByEmail($refreshTokenDecoded->email);
 
-    if (is_null($funcionario))
+    if (is_null($usuario))
       return $response->withStatus(401);
 
     $expiredAt = (new \DateTime())->modify('+2 days')
       ->format('Y-m-d H:i:s');
     $tokenPayload = [
-      'id' => $funcionario->getPk_funcionario(),
-      'name' => $funcionario->getNo_funcionario(),
-      'email' => $funcionario->getEmail(),
-      'cargo' => $funcionario->getFk_cargo(),
+      'id' => $usuario->getPk_usuario(),
+      'name' => $usuario->getNo_usuario(),
+      'email' => $usuario->getEmail(),
+      'cargo' => $usuario->getFk_cargo(),
       'expire_at' => $expiredAt
     ];
 
     $token = JWT::encode($tokenPayload, getenv('JWT_SECRET_KEY'));
 
     $refreshTokenPayload = [
-      'email' => $funcionario->getEmail(),
+      'email' => $usuario->getEmail(),
       'random' => uniqid()
     ];
 
@@ -109,7 +109,7 @@ final class AuthController
     $tokenModel->setExpire_at($expiredAt)
       ->setRefresh_token($refreshToken)
       ->setToken($token)
-      ->setFk_funcionario($funcionario->getPk_funcionario());
+      ->setFk_usuario($usuario->getPk_usuario());
 
     $tokenDAO = new TokensDAO();
     $tokenDAO->createToken($tokenModel);

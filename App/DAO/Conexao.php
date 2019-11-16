@@ -11,11 +11,11 @@ abstract class Conexao
 
   public function __construct()
   {
-    $host = getenv('CODEEASY_GERENCIADOR_DE_LOJAS_MYSQL_HOST');
-    $port = getenv('CODEEASY_GERENCIADOR_DE_LOJAS_MYSQL_PORT');
-    $user = getenv('CODEEASY_GERENCIADOR_DE_LOJAS_MYSQL_USER');
-    $pass = getenv('CODEEASY_GERENCIADOR_DE_LOJAS_MYSQL_PASSWORD');
-    $dbname = getenv('CODEEASY_GERENCIADOR_DE_LOJAS_MYSQL_DBNAME');
+    $host = getenv('MYSQL_HOST');
+    $port = getenv('MYSQL_PORT');
+    $user = getenv('MYSQL_USER');
+    $pass = getenv('MYSQL_PASSWORD');
+    $dbname = getenv('MYSQL_DBNAME');
 
     $dsn = "mysql:host={$host};dbname={$dbname};port={$port}";
 
