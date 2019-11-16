@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\DAO\CargoDAO;
 use App\DAO\UsuarioDAO;
 use App\Models\UsuarioModel;
 use Psr\Http\Message\ServerRequestInterface as Request;
@@ -12,7 +13,9 @@ final class UsuarioController
   public function getUsuarios(Request $request, Response $response, array $args): Response
   {
     $usuarioDAO = new UsuarioDAO();
+    //$cargoDAO = new CargoDAO();
     $usuarios = $usuarioDAO->getAllUsuarios();
+    //$cargos = $cargoDAO->getCargoById($usuarios[0]['fk_cargo']);
     $response = $response->withJson($usuarios);
 
     return $response;

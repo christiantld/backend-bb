@@ -10,16 +10,16 @@ class FornecedorDAO extends Conexao
   {
     parent::__construct();
   }
-  public function getFornecedorById(int $id): ?FornecedorModel
+  public function getFornecedorById(int $id): ?array
   {
     $statement = $this->pdo->prepare(
-      'SELECT
+      "SELECT
       pk_fornecedor,  
       no_fornecedor,
       email, 
-      telefone, 
+      telefone 
       FROM tb_fornecedor
-      WHERE pk_fornecedor = :id;'
+      WHERE pk_fornecedor = :id;"
     );
     $statement->bindParam('id', $id);
     $statement->execute();
@@ -28,12 +28,7 @@ class FornecedorDAO extends Conexao
     if (count($fornecedores) === 0)
       return null;
 
-    $fornecedor = new FornecedorModel();
-    $fornecedor->setPk_fornecedor($fornecedor['pk_fornecedor'])
-      ->setNo_fornecedor($fornecedores['no_fornecedor'])
-      ->setEmail($fornecedor['email'])
-      ->setTelefone($fornecedor['telefone']);
-    return $fornecedor;
+    return $fornecedores;
   }
 
   public function getAllFornecedores(): array

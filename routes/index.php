@@ -33,9 +33,16 @@ $app->get('/usuario', UsuarioController::class . ':getUsuarioByEmail');
 //Rotas Fornecedor
 $app->post('/fornecedor', FornecedorController::class . ':insertFornecedor');
 $app->get('/fornecedores', FornecedorController::class . ':getFornecedores');
+$app->get('/fornecedor', FornecedorController::class . ':getFornecedor');
 $app->put('/fornecedor', FornecedorController::class . ':updateFornecedor');
 $app->delete('/fornecedor', FornecedorController::class . ':deleteFornecedor');
 
+//Rotas Categoria
+$app->post('/categoria', CategoriaController::class . ':insertCategoria');
+$app->get('/categorias', CategoriaController::class . ':getCategorias');
+$app->get('/categoria', CategoriaController::class . ':getCategoria');
+$app->put('/categoria', CategoriaController::class . ':updateCategoria');
+$app->delete('/categoria', CategoriaController::class . ':deleteCategoria');
 
 
 // //rotas lojas

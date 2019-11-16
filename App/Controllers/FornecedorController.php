@@ -18,6 +18,17 @@ final class FornecedorController
     return $response;
   }
 
+  public function getFornecedor(Request $request, Response $response, array $args): Response
+  {
+    $queryParams = $request->getQueryParams();
+    $id = (int) $queryParams['id'];
+    $fornecedorDAO = new FornecedorDAO();
+    $fornecedor = $fornecedorDAO->getFornecedorById($id);
+    $response = $response->withJson($fornecedor);
+
+    return $response;
+  }
+
   public function insertFornecedor(Request $request, Response $response, array $args): Response
   {
     $data = $request->getParsedBody();

@@ -9,3 +9,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 final class LoteController
 { }
+$app->post('/categoria', CategoriaController::class . ':insertCategoria');
+$app->get('/categorias', CategoriaController::class . ':getCategorias');
+$app->put('/categoria', CategoriaController::class . ':updateCategoria');
+$app->delete('/categoria', CategoriaController::class . ':deleteCategoria');
