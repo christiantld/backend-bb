@@ -14,21 +14,18 @@ class FornecedorDAO extends Conexao
   {
     $statement = $this->pdo->prepare(
       "SELECT
-      pk_fornecedor,  
-      no_fornecedor,
-      email, 
-      telefone 
+      *
       FROM tb_fornecedor
       WHERE pk_fornecedor = :id;"
     );
     $statement->bindParam('id', $id);
     $statement->execute();
-    $fornecedores = $statement->fetchAll(\PDO::FETCH_ASSOC);
+    $fornecedor = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-    if (count($fornecedores) === 0)
+    if (count($fornecedor) === 0)
       return null;
 
-    return $fornecedores;
+    return $fornecedor;
   }
 
   public function getAllFornecedores(): array

@@ -10,23 +10,21 @@ class CategoriaDAO extends Conexao
   {
     parent::__construct();
   }
-  public function getCategoriaById(int $id): ?CategoriaModel
+  public function getCategoriaById(int $id): ?array
   {
     $statement = $this->pdo->prepare(
       'SELECT  
-      no_categoria, 
+      *
       FROM tb_categoria
       WHERE pk_categoria = :id;'
     );
     $statement->bindParam('id', $id);
     $statement->execute();
-    $categorias = $statement->fetchAll(\PDO::FETCH_ASSOC);
+    $categoria = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-    if (count($categorias) === 0)
+    if (count($categoria) !== 1)
       return null;
 
-    $categoria = new CategoriaModel();
-    $categoria->setNo_categoria($categorias['no_categoria']);
     return $categoria;
   }
 

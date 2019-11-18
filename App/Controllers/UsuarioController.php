@@ -21,6 +21,17 @@ final class UsuarioController
     return $response;
   }
 
+  public function getUsuario(Request $request, Response $response, array $args): Response
+  {
+    $queryParams = $request->getQueryParams();
+    $id = (int) $queryParams['id'];
+    $usuarioDAO = new UsuarioDAO();
+    $usuario = $usuarioDAO->getUsuarioById($id);
+    $response = $response->withJson($usuario);
+
+    return $response;
+  }
+
   public function insertUsuario(Request $request, Response $response, array $args): Response
   {
     $data = $request->getParsedBody();

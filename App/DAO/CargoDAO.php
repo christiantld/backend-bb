@@ -11,23 +11,21 @@ class CargoDAO extends Conexao
     parent::__construct();
   }
 
-  public function getCargoById(int $id): ?CargoModel
+  public function getCargoById(int $id): ?array
   {
     $statement = $this->pdo->prepare(
       'SELECT  
-      no_cargo, 
+      * 
       FROM tb_cargo
       WHERE pk_cargo = :id;'
     );
     $statement->bindParam('id', $id);
     $statement->execute();
-    $cargos = $statement->fetchAll(\PDO::FETCH_ASSOC);
+    $cargo = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-    if (count($cargos) === 0)
+    if (count($cargo) !== 1)
       return null;
 
-    $cargo = new CargoModel();
-    $cargo->setNo_cargo($cargos['no_cargo']);
     return $cargo;
   }
 

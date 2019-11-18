@@ -13,37 +13,36 @@ class SaidaDAO extends Conexao
   public function getAllSaidas(): array
   {
     $saidas = $this->pdo
-      ->query('SELECT 
-          *
-          FROM tb_saida;')
+      ->query('SELECT s.*, p.no_produto, u.no_usuario 
+      FROM tb_saida AS s 
+      INNER JOIN tb_produto as p 
+      INNER JOIN tb_usuario as u 
+      WHERE s.fk_produto = p.pk_produto 
+      AND s.fk_usuario = u.pk_usuario;')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $saidas;
   }
 
-  public function getSaidabyId(int $id): ?SaidaModel
+  public function getSaidabyId(int $id): ?array
   {
     $statement = $this->pdo->prepare(
-      'SELECT
-      qtd_item,
-      data_saida,
-      fk_produto,
-      fk_usuario,
-      FROM tb_saida WHERE pk_saida = :id;'
+      'SELECT s.*, p.no_produto, u.no_usuario 
+      FROM tb_saida AS s 
+      INNER JOIN tb_produto as p 
+      INNER JOIN tb_usuario as u 
+      WHERE s.fk_produto = p.pk_produto 
+      AND s.fk_usuario = u.pk_usuario 
+      AND s.pk_saida = :id;'
     );
 
     $statement->bindParam('id', $id);
     $statement->execute();
-    $saidas = $statement->fetchAll(\PDO::FETCH_ASSOC);
+    $saida = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-    if (count($saidas) === 0)
+    if (count($saida) !== 1)
       return null;
 
-    $saida = new SaidaModel();
-    $saida->setQtd_item($saidas[0]['qtd_item'])
-      ->setData_saida($saidas[0]['data_saida'])
-      ->setFk_produto($saidas[0]['fk_produto'])
-      ->setFk_usuario($saidas[0]['fk_usuario']);
     return $saida;
   }
 

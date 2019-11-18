@@ -19,10 +19,11 @@ final class CategoriaController
 
   public function getCategoria(Request $request, Response $response, array $args): Response
   {
-    $data = $request->getParsedBody();
+    $queryParams = $request->getQueryParams();
+    $id = (int) $queryParams['id'];
     $categoriaDAO = new CategoriaDAO();
-    $categoria = $categoriaDAO->getCategoriaById($data['pk_categoria']);
-    $response = $response->withJason($categoria);
+    $categoria = $categoriaDAO->getCategoriaById($id);
+    $response = $response->withJson($categoria);
 
     return $response;
   }

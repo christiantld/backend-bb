@@ -15,14 +15,14 @@ final class FornecedorModel
      */
     private $no_fornecedor;
 
-    /**
-     * @var string
-     */
+    // /**
+    //  * @var string
+    //  */
     private $email;
 
-    /**
-     * @var int
-     */
+    // /**
+    //  * @var int
+    //  */
     private $telefone;
 
     //METODOS
@@ -64,38 +64,38 @@ final class FornecedorModel
         return $this;
     }
 
-    /**
-     * @return  string
-     */
-    public function getEmail(): string
+    // /**
+    //  * @return  string
+    //  */
+    public function getEmail()
     {
         return $this->email;
     }
 
-    /**
-     * @param  string  $email
-     * @return  self
-     */
-    public function setEmail(string $email): self
+    // /**
+    //  * @param  string  $email
+    //  * @return  self
+    //  */
+    public function setEmail($email)
     {
         $this->email = $email;
 
         return $this;
     }
 
-    /**
-     * @return  int
-     */
-    public function getTelefone(): int
+    // /**
+    //  * @return  int
+    //  */
+    public function getTelefone()
     {
         return $this->telefone;
     }
 
-    /**
-     * @param  int  $telefone
-     * @return  self
-     */
-    public function setTelefone(int $telefone): self
+    // /**
+    //  * @param  int  $telefone
+    //  * @return  self
+    //  */
+    public function setTelefone($telefone)
     {
         $this->telefone = $telefone;
 

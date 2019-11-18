@@ -20,10 +20,11 @@ class Produto_FornecedorDAO extends Conexao
     return $produto_fornecedor;
   }
 
-  public function getProduto_FornecedorById(int $id): ?Produto_FornecedorModel
+  public function getProduto_FornecedorById(int $id): ?array
   {
     $statement = $this->pdo->prepare(
       'SELECT
+      pk_produto_fornecedor
       fk_produto,
       fk_fornecedor
       FROM tb_produto_fornecedor WHERE pk_produto_fornecedor = :id'
@@ -31,14 +32,11 @@ class Produto_FornecedorDAO extends Conexao
 
     $statement->bindParam('id', $id);
     $statement->execute();
-    $produtos_fornecedores = $statement->fetchAll(\PDO::FETCH_ASSOC);
+    $produto_fornecedor = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-    if (count($produtos_fornecedores) === 0)
+    if (count($produto_fornecedor) !== 1)
       return null;
 
-    $produto_fornecedor = new Produto_FornecedorModel();
-    $produto_fornecedor->setFk_produto($produtos_fornecedores[0]['fk_produto'])
-      ->setFk_fornecedor($produtos_fornecedores[0]['fk_fornecedor']);
     return $produto_fornecedor;
   }
 

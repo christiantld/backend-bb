@@ -3,37 +3,46 @@
 namespace App\Controllers;
 
 use App\DAO\ProdutoDAO;
+use App\Models\ProdutoModel;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 
 final class  ProdutoController
 {
-  public function getCategorias(Request $request, Response $response, array $args): Response
+  public function getProdutos(Request $request, Response $response, array $args): Response
   {
-    $categoriaDAO = new CategoriaDAO();
-    $categorias = $categoriaDAO->getAllCategorias();
-    $response = $response->withJson($categorias);
+    $produtoDAO = new ProdutoDAO();
+    $produtos = $produtoDAO->getAllProdutos();
+    $response = $response->withJson($produtos);
     return $response;
   }
 
-  public function getCategoria(Request $request, Response $response, array $args): Response
+  public function getProduto(Request $request, Response $response, array $args): Response
   {
-    $data = $request->getParsedBody();
-    $categoriaDAO = new CategoriaDAO();
-    $categoria = $categoriaDAO->getCategoriaById($data['pk_categoria']);
-    $response = $response->withJason($categoria);
+    $queryParams = $request->getQueryParams();
+    $id = (int) $queryParams['id'];
+    $produtoDAO = new ProdutoDAO();
+    $produto = $produtoDAO->getProdutoById($id);
+    $response = $response->withJson($produto);
 
     return $response;
   }
 
-  public function insertCategoria(Request $request, Response $response, array $args): Response
+  public function insertProduto(Request $request, Response $response, array $args): Response
   {
     $data = $request->getParsedBody();
-    $categoriaDAO = new CategoriaDAO();
-    $categoria = new CategoriaModel();
-    $categoria
-      ->setNo_categoria($data['no_categoria']);
-    $categoriaDAO->insertCategoria($categoria);
+
+    $produtoDAO = new ProdutoDAO();
+    $produto = new ProdutoModel();
+    $produto
+      ->setNo_produto($data['no_produto'])
+      ->setMarca($data['marca'])
+      ->setDescricao($data['descricao'])
+      ->setQtd_minima($data['qtd_minima'])
+      ->setQtd_max($data['qtd_max'])
+      ->setQtd_total($data['qtd_total'])
+      ->setFk_categoria($data['fk_categoria']);
+    $produtoDAO->insertProduto($produto);
     $response = $response->withJson([
       "message" => "Dados enviados com sucesso"
     ]);
@@ -41,16 +50,22 @@ final class  ProdutoController
     return $response;
   }
 
-  public function updateCategoria(Request $request, Response $response, array $args): Response
+  public function updateProduto(Request $request, Response $response, array $args): Response
   {
     $data = $request->getParsedBody();
 
-    $categoriaDAO = new CategoriaDAO();
-    $categoria = new CategoriaModel();
-    $categoria
-      ->setPk_categoria((int) $data['pk_categoria'])
-      ->setNo_categoria($data['no_categoria']);
-    $categoriaDAO->updateCategoria($categoria);
+    $produtoDAO = new ProdutoDAO();
+    $produto = new ProdutoModel();
+    $produto
+      ->setPk_produto((int) $data['pk_produto'])
+      ->setNo_produto($data['no_produto'])
+      ->setMarca($data['marca'])
+      ->setDescricao($data['descricao'])
+      ->setQtd_minima($data['qtd_minima'])
+      ->setQtd_max($data['qtd_max'])
+      ->setQtd_total($data['qtd_total'])
+      ->setFk_categoria($data['fk_categoria']);
+    $produtoDAO->updateProduto($produto);
 
     $response = $response->withJson([
       "message" => "Alteracao realizada com sucesso"
@@ -58,13 +73,13 @@ final class  ProdutoController
     return $response;
   }
 
-  public function deleteCategoria(Request $request, Response $response, array $args): Response
+  public function deleteProduto(Request $request, Response $response, array $args): Response
   {
     $queryParams = $request->getQueryParams();
 
-    $categoriaDAO = new CategoriaDAO();
+    $produtoDAO = new ProdutoDAO();
     $id = (int) $queryParams['id'];
-    $categoriaDAO->deleteCategoria($id);
+    $produtoDAO->deleteProduto($id);
 
     $response = $response->withJson([
       'message' => 'Exclusao realizada com sucesso'

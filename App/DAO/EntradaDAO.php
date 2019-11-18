@@ -13,41 +13,39 @@ class EntradaDAO extends Conexao
   public function getAllEntradas(): array
   {
     $entradas = $this->pdo
-      ->query('SELECT 
-          *
-          FROM tb_entrada;')
+      ->query('SELECT e.*, p.no_produto, u.no_usuario, f.no_fornecedor 
+      FROM tb_entrada AS e 
+      INNER JOIN tb_produto AS p 
+      INNER JOIN tb_usuario as u 
+      INNER JOIN tb_fornecedor AS f 
+      WHERE e.fk_produto = p.pk_produto 
+      AND e.fk_usuario = u.pk_usuario 
+      AND e.fk_fornecedor = f.pk_fornecedor')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $entradas;
   }
 
-  public function getEntradabyId(int $id): ?EntradaModel
+  public function getEntradabyId(int $id): ?array
   {
     $statement = $this->pdo->prepare(
-      'SELECT
-      data_entrada,
-      qtd_item,
-      valor_item,
-      fk_produto,
-      fk_usuario
-      fk_fornecedor,
-      FROM tb_entrada WHERE pk_entrada = :id;'
+      'SELECT e.*, p.no_produto, u.no_usuario, f.no_fornecedor 
+      FROM tb_entrada AS e 
+      INNER JOIN tb_produto AS p 
+      INNER JOIN tb_usuario as u 
+      INNER JOIN tb_fornecedor AS f 
+      WHERE e.fk_produto = p.pk_produto 
+      AND e.fk_usuario = u.pk_usuario 
+      AND e.fk_fornecedor = f.pk_fornecedor AND pk_entrada = :id;'
     );
 
     $statement->bindParam('id', $id);
     $statement->execute();
-    $entradas = $statement->fetchAll(\PDO::FETCH_ASSOC);
+    $entrada = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-    if (count($entradas) === 0)
+    if (count($entrada) !== 1)
       return null;
 
-    $entrada = new EntradaModel();
-    $entrada->setData_entrada($entradas[0]['data_entrada'])
-      ->setQtd_item($entradas[0]['qtd_item'])
-      ->setValor_item($entradas[0]['valor_item'])
-      ->setFk_produto($entradas[0]['fk_produto'])
-      ->setFk_usuario($entradas[0]['fk_usuario'])
-      ->setFk_fornecedor($entradas[0]['fk_fornecedor']);
     return $entrada;
   }
 
@@ -91,12 +89,11 @@ class EntradaDAO extends Conexao
       fk_produto = :fk_produto,
       fk_usuario = :fk_usuario,
       fk_fornecedor = :fk_fornecedor
-       = :
       WHERE
         pk_entrada = :pk_entrada;
     ');
 
-    $statement > execute([
+    $statement->execute([
       'pk_entrada' => $entrada->getPk_entrada(),
       'data_entrada' => $entrada->getData_entrada(),
       'qtd_item' => $entrada->getQtd_item(),

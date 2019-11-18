@@ -40,20 +40,38 @@ class UsuarioDAO extends Conexao
       ->setSenha($usuarios[0]['senha'])
       ->setTelefone($usuarios[0]['telefone'])
       ->setFk_cargo($usuarios[0]['fk_cargo']);
+    return $usuarios;
+  }
+
+  public function getUsuarioById(int $id): ?array
+  {
+    $statement = $this->pdo->prepare(
+      'SELECT  
+      u.*,
+      c.no_cargo
+      FROM tb_usuario AS u
+      INNER JOIN tb_cargo AS c
+      WHERE u.fk_cargo = c.pk_cargo AND u.pk_usuario = :id;'
+    );
+    $statement->bindParam('id', $id);
+    $statement->execute();
+    $usuario = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+    if (count($usuario) === 0)
+      return null;
+
     return $usuario;
   }
 
   public function getAllUsuarios(): array
   {
     $usuario = $this->pdo
-      ->query('SELECT 
-              pk_usuario,
-              no_usuario, 
-              nu_cpf, 
-              email,
-              telefone, 
-              fk_cargo
-              FROM tb_usuario;')
+      ->query('SELECT  
+      u.*,
+      c.no_cargo
+      FROM tb_usuario AS u
+      INNER JOIN tb_cargo AS c
+      WHERE u.fk_cargo = c.pk_cargo;')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $usuario;

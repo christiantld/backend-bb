@@ -15,37 +15,34 @@ class LoteDAO extends Conexao
   {
     $lotes = $this->pdo
       ->query('SELECT 
-        *
-        FROM tb_lote;')
+        l.*,
+        p.no_produto
+        FROM tb_lote AS l
+        INNER JOIN tb_produto AS p
+        WHERE l.fk_produto = p.pk_produto;')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $lotes;
   }
 
-  public function getLoteById(int $id): ?LoteModel
+  public function getLoteById(int $id): ?array
   {
     $statement = $this->pdo->prepare(
       'SELECT 
-    data_fabricacao,
-    lote,
-    data_validade,
-    fk_produto
-    FROM tb_lote WHERE pk_lote = :id;
-    '
+      l.*,
+      p.no_produto
+      FROM tb_lote AS l
+      INNER JOIN tb_produto AS p
+      WHERE l.fk_produto = p.pk_produto AND l.pk_lote = :id;'
     );
 
     $statement->bindParam('id', $id);
     $statement->execute();
-    $lotes = $statement->fetchAll(\PDO::FETCH_ASSOC);
+    $lote = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-    if (count($lotes) === 0)
+    if (count($lote) !== 1)
       return null;
 
-    $lote = new LoteModel();
-    $lote->setData_fabricacao($lotes[0]['data_fabricacao'])
-      ->setLote($lotes[0]['lote'])
-      ->setData_validade($lotes[0]['data_validade'])
-      ->setFk_produto($lote[0]['fk_produto']);
     return $lote;
   }
 

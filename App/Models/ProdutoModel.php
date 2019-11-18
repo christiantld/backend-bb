@@ -19,9 +19,9 @@ final class ProdutoModel
      */
     private $marca;
 
-    /**
-     * @var string
-     */
+    // /**
+    //  * @var string
+    //  */
     private $descricao;
 
     /**
@@ -102,19 +102,19 @@ final class ProdutoModel
         return $this;
     }
 
-    /**
-     * @return  string
-     */
-    public function getDescricao(): string
+    // /**
+    //  * @return  string
+    //  */
+    public function getDescricao()
     {
         return $this->descricao;
     }
 
-    /**
-     * @param  string  $descricao
-     * @return  self
-     */
-    public function setDescricao(string $descricao): self
+    // /**
+    //  * @param  string  $descricao
+    //  * @return  self
+    //  */
+    public function setDescricao($descricao)
     {
         $this->descricao = $descricao;
 

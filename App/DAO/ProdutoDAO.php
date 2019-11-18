@@ -2,6 +2,8 @@
 
 namespace App\DAO;
 
+use App\Models\EntradaModel;
+use App\Models\SaidaModel;
 use App\Models\ProdutoModel;
 
 class ProdutoDAO extends Conexao
@@ -10,45 +12,33 @@ class ProdutoDAO extends Conexao
   {
     parent::__construct();
   }
-  public function getProdutoById(int $id): ?ProdutoModel
+  public function getProdutoById(int $id): ?array
   {
     $statement = $this->pdo->prepare(
-      'SELECT  
-      no_produto,
-      descricao,
-      marca,
-      qtd_minima,
-      qtd_max,
-      qtd_total,
-      fk_categoria
-      
-      FROM tb_produto
-      WHERE pk_produto = :id;'
+      'SELECT
+      p.*,
+      c.no_categoria
+      FROM tb_produto as p
+      INNER JOIN tb_categoria as c
+      WHERE p.pk_produto = :id AND c.pk_categoria = p.fk_categoria;'
     );
     $statement->bindParam('id', $id);
     $statement->execute();
-    $produtos = $statement->fetchAll(\PDO::FETCH_ASSOC);
+    $produto = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-    if (count($produtos) === 0)
+    if (count($produto) !== 1)
       return null;
 
-    $produto = new ProdutoModel();
-    $produto->setNo_Produto($produtos[0]['no_produto'])
-      ->setMarca($produtos[0]['marca'])
-      ->setDescricao($produto[0]['descricao'])
-      ->setQtd_minima($produtos[0]['qtd_minima'])
-      ->setQtd_max($produtos[0]['qtd_max'])
-      ->setQtd_total($produtos[0]['qtd_total'])
-      ->setFk_categoria($produtos[0]['fk_categoria']);
     return $produto;
   }
 
   public function getAllProdutos(): array
   {
     $produtos = $this->pdo
-      ->query('SELECT 
-              *
-              FROM tb_produto;')
+      ->query('SELECT p.*, c.no_categoria 
+      FROM tb_produto AS p 
+      INNER JOIN tb_categoria as c 
+      WHERE c.pk_categoria = p.fk_categoria')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $produtos;
@@ -70,13 +60,13 @@ class ProdutoDAO extends Conexao
             );');
 
     $statement->execute([
-      'no_produto' => $produto->getNo_Produto(),
+      'no_produto' => $produto->getNo_produto(),
       'marca' => $produto->getMarca(),
       'descricao' => $produto->getDescricao(),
       'qtd_minima' => $produto->getQtd_minima(),
       'qtd_max' => $produto->getQtd_max(),
       'qtd_total' => $produto->getQtd_total(),
-      'fk_catogoria' => $produto->getFk_categoria()
+      'fk_categoria' => $produto->getFk_categoria()
     ]);
   }
 
@@ -91,7 +81,7 @@ class ProdutoDAO extends Conexao
       qtd_minima = :qtd_minima,
       qtd_max = :qtd_max,
       qtd_total = :qtd_total,
-      fk_categoria = :fk_cateforia
+      fk_categoria = :fk_categoria
       WHERE 
           pk_produto = :pk_produto 
         ;');
@@ -104,7 +94,43 @@ class ProdutoDAO extends Conexao
       'qtd_minima' => $produto->getQtd_minima(),
       'qtd_max' => $produto->getQtd_max(),
       'qtd_total' => $produto->getQtd_total(),
-      'fk_catogoria' => $produto->getFk_categoria()
+      'fk_categoria' => $produto->getFk_categoria()
+    ]);
+  }
+
+  public function addProduto(ProdutoModel $produto, EntradaModel $entrada): void
+  {
+    $statement = $this->pdo
+      ->prepare('UPDATE tb_produto SET 
+      qtd_total = :qtd_total
+      WHERE 
+          pk_produto = :fk_produto 
+        ;');
+
+    $total = (int) $produto->getQtd_total() + (int) $entrada->getQtd_item();
+    $statement->execute([
+      'qtd_total' => $total,
+      'fk_produto' => $entrada->getFk_produto()
+    ]);
+  }
+
+  public function removeProduto(ProdutoModel $produto, SaidaModel $saida): void
+  {
+    $statement = $this->pdo
+      ->prepare('UPDATE tb_produto SET 
+      qtd_total = :qtd_total
+      WHERE 
+          pk_produto = :fk_produto 
+        ;');
+
+    $total = (int) $produto->getQtd_total() - (int) $saida->getQtd_item();
+
+    if ($total < 0)
+      $total = 0;
+
+    $statement->execute([
+      'qtd_total' => $total,
+      'fk_produto' => $saida->getFk_produto()
     ]);
   }
 
