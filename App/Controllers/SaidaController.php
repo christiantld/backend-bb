@@ -42,7 +42,10 @@ final class SaidaController
       ->setdata_saida($data['data_saida'])
       ->setfk_usuario($data['fk_usuario'])
       ->setfk_produto($data['fk_produto']);
+    if ($data['qtd_item'] <= 0)
+      $saida->setQtd_item(0);
     $saidaDAO->insertSaida($saida);
+    $qtd_item = 0;
 
     $id = (int) $data['fk_produto'];
     $produtoDAO = new ProdutoDAO;
@@ -51,7 +54,7 @@ final class SaidaController
     $produto = new ProdutoModel();
     $produto->setQtd_total($produtoData[0]['qtd_total']);
 
-    $produtoDAO->removeProduto($produto, $saida);
+    $produtoDAO->removeProduto($produto, $saida, $qtd_item);
 
     $response = $response->withJson([
       "message" => "Dados enviados com sucesso"
@@ -67,11 +70,22 @@ final class SaidaController
     $saidaDAO = new SaidaDAO();
     $saida = new SaidaModel();
     $saida
-      ->setpk_saida((int) $data['pk_saida'])
-      ->setdata_saida($data['data_saida'])
-      ->setqtd_item($data['qtd_item'])
-      ->setfk_produto($data['fk_produto'])
-      ->setfk_usuario($data['fk_usuario']);
+      ->setPk_saida((int) $data['pk_saida'])
+      ->setData_saida($data['data_saida'])
+      ->setQtd_item($data['qtd_item'])
+      ->setFk_produto($data['fk_produto'])
+      ->setFk_usuario($data['fk_usuario']);
+    if ($data['qtd_item'] <= 0)
+      $saida->setQtd_item(0);
+
+    $qtd_item = $saidaDAO->getSaidabyId((int) $data['pk_saida']);
+    if ($qtd_item <= 0)
+      $qtd_item = 0;
+    $qtd_item = $qtd_item[0]['qtd_item'];
+
+    if ($data['qtd_item'] <= 0)
+      $saida->setQtd_item(0);
+
     $saidaDAO->updateSaida($saida);
 
     $id = (int) $data['fk_produto'];
@@ -81,7 +95,7 @@ final class SaidaController
     $produto = new ProdutoModel();
     $produto->setQtd_total($produtoData[0]['qtd_total']);
 
-    $produtoDAO->removeProduto($produto, $saida);
+    $produtoDAO->removeProduto($produto, $saida, $qtd_item);
 
     $response = $response->withJson([
       "message" => "Alteracao realizada com sucesso"

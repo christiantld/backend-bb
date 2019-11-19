@@ -48,7 +48,11 @@ final class EntradaController
       ->setfk_usuario($data['fk_usuario'])
       ->setfk_fornecedor($data['fk_fornecedor'])
       ->setfk_produto($data['fk_produto']);
+
     $entradaDAO->insertEntrada($entrada);
+    $qtd_item = 0;
+    if ($data['qtd_item'] <= 0)
+      $entrada->setQtd_item(0);
 
     $id = (int) $data['fk_produto'];
     $produtoDAO = new ProdutoDAO;
@@ -57,7 +61,7 @@ final class EntradaController
     $produto = new ProdutoModel();
     $produto->setQtd_total($produtoData[0]['qtd_total']);
 
-    $produtoDAO->addProduto($produto, $entrada);
+    $produtoDAO->addProduto($produto, $entrada, $qtd_item);
 
     $response = $response->withJson([
       "message" => "Dados enviados com sucesso"
@@ -73,13 +77,21 @@ final class EntradaController
     $entradaDAO = new EntradaDAO();
     $entrada = new EntradaModel();
     $entrada
-      ->setpk_entrada((int) $data['pk_entrada'])
-      ->setdata_entrada($data['data_entrada'])
-      ->setqtd_item($data['qtd_item'])
-      ->setvalor_item($data['valor_item'])
-      ->setfk_produto($data['fk_produto'])
-      ->setfk_usuario($data['fk_usuario'])
-      ->setfk_fornecedor($data['fk_fornecedor']);
+      ->setPk_entrada((int) $data['pk_entrada'])
+      ->setData_entrada($data['data_entrada'])
+      ->setQtd_item($data['qtd_item'])
+      ->setValor_item($data['valor_item'])
+      ->setFk_produto($data['fk_produto'])
+      ->setFk_usuario($data['fk_usuario'])
+      ->setFk_fornecedor($data['fk_fornecedor']);
+    if ($data['qtd_item'] <= 0)
+      $entrada->setQtd_item(0);
+
+    $qtd_item = $entradaDAO->getEntradabyId((int) $data['pk_entrada']);
+    if ($qtd_item === 0)
+      $qtd_item = 0;
+    $qtd_item = $qtd_item[0]['qtd_item'];
+
     $entradaDAO->updateEntrada($entrada);
 
     $id = (int) $data['fk_produto'];
@@ -89,7 +101,7 @@ final class EntradaController
     $produto = new ProdutoModel();
     $produto->setQtd_total($produtoData[0]['qtd_total']);
 
-    $produtoDAO->addProduto($produto, $entrada);
+    $produtoDAO->addProduto($produto, $entrada, $qtd_item);
 
     $response = $response->withJson([
       "message" => "Alteracao realizada com sucesso"

@@ -98,8 +98,9 @@ class ProdutoDAO extends Conexao
     ]);
   }
 
-  public function addProduto(ProdutoModel $produto, EntradaModel $entrada): void
+  public function addProduto(ProdutoModel $produto, EntradaModel $entrada, int $qtd_item): void
   {
+
     $statement = $this->pdo
       ->prepare('UPDATE tb_produto SET 
       qtd_total = :qtd_total
@@ -107,14 +108,16 @@ class ProdutoDAO extends Conexao
           pk_produto = :fk_produto 
         ;');
 
-    $total = (int) $produto->getQtd_total() + (int) $entrada->getQtd_item();
+    $total = ((int) $produto->getQtd_total() - $qtd_item) + (int) $entrada->getQtd_item();
+
     $statement->execute([
       'qtd_total' => $total,
       'fk_produto' => $entrada->getFk_produto()
     ]);
+    print_r("(" . (int) $produto->getQtd_total() . "-" . $qtd_item . ")" . "+" . $entrada->getQtd_item() . "=" . $total);
   }
 
-  public function removeProduto(ProdutoModel $produto, SaidaModel $saida): void
+  public function removeProduto(ProdutoModel $produto, SaidaModel $saida, Int $qtd_item): void
   {
     $statement = $this->pdo
       ->prepare('UPDATE tb_produto SET 
@@ -122,16 +125,13 @@ class ProdutoDAO extends Conexao
       WHERE 
           pk_produto = :fk_produto 
         ;');
-
-    $total = (int) $produto->getQtd_total() - (int) $saida->getQtd_item();
-
-    if ($total < 0)
-      $total = 0;
+    $total = ((int) $produto->getQtd_total() + $qtd_item) - $saida->getQtd_item();
 
     $statement->execute([
       'qtd_total' => $total,
       'fk_produto' => $saida->getFk_produto()
     ]);
+    print_r("(" . (int) $produto->getQtd_total() . "+" . $qtd_item . ")" . "-" . $saida->getQtd_item() . "=" . $total);
   }
 
   public function deleteProduto(int $pk_produto): void
