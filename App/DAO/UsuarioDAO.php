@@ -40,7 +40,7 @@ class UsuarioDAO extends Conexao
       ->setSenha($usuarios[0]['senha'])
       ->setTelefone($usuarios[0]['telefone'])
       ->setFk_cargo($usuarios[0]['fk_cargo']);
-    return $usuarios;
+    return $usuario;
   }
 
   public function getUsuarioById(int $id): ?array
@@ -57,7 +57,7 @@ class UsuarioDAO extends Conexao
     $statement->execute();
     $usuario = $statement->fetchAll(\PDO::FETCH_ASSOC);
 
-    if (count($usuario) === 0)
+    if (count($usuario) !== 1)
       return null;
 
     return $usuario;

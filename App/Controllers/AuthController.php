@@ -24,8 +24,9 @@ final class AuthController
     if (is_null($usuario))
       return $response->withStatus(401);
 
+    // ERRO password verify 
     $hash = $usuario->getSenha();
-    if (!password_verify($senha, $hash))
+    if ($senha !== $hash)
       return $response->withStatus(401);
 
     $expiredAt = (new \DateTime())->modify('+2 days')
@@ -59,7 +60,11 @@ final class AuthController
 
     $response = $response->withJson([
       "token" => $token,
-      "refresh_token" => $refreshToken
+      "refresh_token" => $refreshToken,
+      "usuario" => $usuario->getNo_usuario(),
+      "id" => $usuario->getPk_usuario(),
+      "email" => $usuario->getEmail(),
+      "cargo" => $usuario->getFk_cargo()
     ]);
 
     return $response;

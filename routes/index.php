@@ -8,6 +8,8 @@ use App\Controllers\ProdutoController;
 use App\Controllers\LoteController;
 use App\Controllers\EntradaController;
 use App\Controllers\SaidaController;
+use App\Controllers\CargoController;
+use App\Controllers\HistoricoController;
 
 use App\Middlewares\JwtDateTimeMiddleware;
 use Tuupola\Middleware\JwtAuthentication;
@@ -21,18 +23,23 @@ $app = new \Slim\App(slimConfiguration());
 
 $app->post('/login', AuthController::class . ':login');
 $app->post('/refresh-token', AuthController::class . ':refreshToken');
+$app->post('/registrar', UsuarioController::class . ':insertUsuario');
+$app->get('/cargos', CargoController::class . ':getCargos');
+$app->get('/historico', HistoricoController::class . ':getHistorico');
 
 // ->add(new JwtDateTimeMiddleware())
 // ->add(jwtAuth());
 
-
+$app->get('/teste', function () {
+  echo "oi";
+})
+  ->add(new JwtDateTimeMiddleware())
+  ->add(jwtAuth());
 
 //Rotas Usuarios
 $app->get('/usuarios', UsuarioController::class . ':getUsuarios');
-$app->post('/registrar', UsuarioController::class . ':insertUsuario');
 $app->put('/usuario', UsuarioController::class . ':updateUsuario');
 $app->delete('/usuario', UsuarioController::class . ':deleteUsuario');
-$app->get('/usuario-e', UsuarioController::class . ':getUsuarioByEmail');
 $app->get('/usuario', UsuarioController::class . ':getUsuario');
 
 //Rotas Fornecedor

@@ -154,7 +154,6 @@ final class UsuarioModel
 
         return $this;
     }
-
     /**
      * @return  int
      */

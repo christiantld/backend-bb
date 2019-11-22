@@ -51,4 +51,14 @@ class TokensDAO extends Conexao
     $tokens = $statement->fetchAll(\PDO::FETCH_ASSOC);
     return count($tokens) === 0 ? false : true;
   }
+
+  public function inactiveToken(string $token): void
+  {
+    $statement = $this->pdo
+      ->prepare('UPDATE tb_token SET active = 0 WHERE token = :token');
+
+    $statement->execute([
+      'token' => $token->getToken()
+    ]);
+  }
 }

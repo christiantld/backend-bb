@@ -54,9 +54,9 @@ IF NOT EXISTS `db_blackbook2`.`tb_usuario`
   `no_usuario` VARCHAR
 (60) NOT NULL,
   `nu_cpf` BIGINT
-(11) UNSIGNED ZEROFILL NOT NULL,
+(11) UNSIGNED ZEROFILL UNIQUE NOT NULL,
   `email` VARCHAR
-(45) NOT NULL,
+(45)  UNIQUE NOT NULL,
   `telefone` BIGINT
 (11) UNSIGNED NOT NULL,
   `senha` VARCHAR
