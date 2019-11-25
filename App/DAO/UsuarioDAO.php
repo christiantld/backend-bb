@@ -71,7 +71,8 @@ class UsuarioDAO extends Conexao
       c.no_cargo
       FROM tb_usuario AS u
       INNER JOIN tb_cargo AS c
-      WHERE u.fk_cargo = c.pk_cargo;')
+      WHERE u.fk_cargo = c.pk_cargo
+      ORDER by u.pk_usuario DESC;')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $usuario;

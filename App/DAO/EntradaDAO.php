@@ -36,7 +36,8 @@ class EntradaDAO extends Conexao
       INNER JOIN tb_fornecedor AS f 
       WHERE e.fk_produto = p.pk_produto 
       AND e.fk_usuario = u.pk_usuario 
-      AND e.fk_fornecedor = f.pk_fornecedor AND pk_entrada = :id;'
+      AND e.fk_fornecedor = f.pk_fornecedor AND pk_entrada = :id
+      ORDER BY pk_entrada DESC;'
     );
 
     $statement->bindParam('id', $id);

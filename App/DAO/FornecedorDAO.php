@@ -33,7 +33,8 @@ class FornecedorDAO extends Conexao
     $fornecedores = $this->pdo
       ->query('SELECT 
               *
-              FROM tb_fornecedor;')
+              FROM tb_fornecedor
+              ORDER BY pk_fornecedor DESC;')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $fornecedores;

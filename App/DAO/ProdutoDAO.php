@@ -38,7 +38,8 @@ class ProdutoDAO extends Conexao
       ->query('SELECT p.*, c.no_categoria 
       FROM tb_produto AS p 
       INNER JOIN tb_categoria as c 
-      WHERE c.pk_categoria = p.fk_categoria')
+      WHERE c.pk_categoria = p.fk_categoria
+      ORDER by p.pk_produto DESC;')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $produtos;

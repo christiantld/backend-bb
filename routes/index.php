@@ -9,7 +9,6 @@ use App\Controllers\LoteController;
 use App\Controllers\EntradaController;
 use App\Controllers\SaidaController;
 use App\Controllers\CargoController;
-use App\Controllers\HistoricoController;
 
 use App\Middlewares\JwtDateTimeMiddleware;
 use Tuupola\Middleware\JwtAuthentication;
@@ -25,7 +24,6 @@ $app->post('/login', AuthController::class . ':login');
 $app->post('/refresh-token', AuthController::class . ':refreshToken');
 $app->post('/registrar', UsuarioController::class . ':insertUsuario');
 $app->get('/cargos', CargoController::class . ':getCargos');
-$app->get('/historico', HistoricoController::class . ':getHistorico');
 
 // ->add(new JwtDateTimeMiddleware())
 // ->add(jwtAuth());

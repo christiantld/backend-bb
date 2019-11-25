@@ -34,7 +34,8 @@ class CategoriaDAO extends Conexao
       ->query('SELECT 
               pk_categoria,
               no_categoria
-              FROM tb_categoria;')
+              FROM tb_categoria
+              ORDER by pk_categoria DESC;')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $categorias;

@@ -18,7 +18,8 @@ class SaidaDAO extends Conexao
       INNER JOIN tb_produto as p 
       INNER JOIN tb_usuario as u 
       WHERE s.fk_produto = p.pk_produto 
-      AND s.fk_usuario = u.pk_usuario;')
+      AND s.fk_usuario = u.pk_usuario
+      ORDER BY pk_saida DESC;')
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $saidas;
