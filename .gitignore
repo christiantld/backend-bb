@@ -2,7 +2,7 @@ vendor/
 .buildpath
 .project
 .settings/
-composer.lock
+
 env.php
 composer.phar
 .vscode/
