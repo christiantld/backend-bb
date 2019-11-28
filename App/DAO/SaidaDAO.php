@@ -13,7 +13,7 @@ class SaidaDAO extends Conexao
   public function getAllSaidas(): array
   {
     $saidas = $this->pdo
-      ->query('SELECT s.*, p.no_produto, u.no_usuario 
+      ->query('SELECT s.*, p.no_produto, p.marca, u.no_usuario 
       FROM tb_saida AS s 
       INNER JOIN tb_produto as p 
       INNER JOIN tb_usuario as u 

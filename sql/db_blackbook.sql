@@ -97,8 +97,8 @@ IF NOT EXISTS `db_blackbook2`.`tb_fornecedor`
 (45) NOT NULL,
   `email` VARCHAR
 (45) NULL,
-  `telefone` INT
-(14) NULL,
+  `telefone` BIGINT
+(11) NULL,
   PRIMARY KEY
 (`pk_fornecedor`))
 ENGINE = InnoDB;

@@ -42,14 +42,16 @@ final class SaidaController
       ->setdata_saida($data['data_saida'])
       ->setfk_usuario($data['fk_usuario'])
       ->setfk_produto($data['fk_produto']);
-    if ($data['qtd_item'] <= 0)
+    $id = (int) $data['fk_produto'];
+    $produtoDAO = new ProdutoDAO;
+    $produtoData = $produtoDAO->getProdutoById($id);
+
+    if ($data['qtd_item'] > $produtoData[0]['qtd_total'])
       $saida->setQtd_item(0);
     $saidaDAO->insertSaida($saida);
     $qtd_item = 0;
 
-    $id = (int) $data['fk_produto'];
-    $produtoDAO = new ProdutoDAO;
-    $produtoData = $produtoDAO->getProdutoById($id);
+
 
     $produto = new ProdutoModel();
     $produto->setQtd_total($produtoData[0]['qtd_total']);

@@ -13,14 +13,17 @@ class EntradaDAO extends Conexao
   public function getAllEntradas(): array
   {
     $entradas = $this->pdo
-      ->query('SELECT e.*, p.no_produto, u.no_usuario, f.no_fornecedor 
+      ->query(
+        'SELECT e.*, p.no_produto, u.no_usuario, f.no_fornecedor 
       FROM tb_entrada AS e 
       INNER JOIN tb_produto AS p 
       INNER JOIN tb_usuario as u 
       INNER JOIN tb_fornecedor AS f 
       WHERE e.fk_produto = p.pk_produto 
       AND e.fk_usuario = u.pk_usuario 
-      AND e.fk_fornecedor = f.pk_fornecedor')
+      AND e.fk_fornecedor = f.pk_fornecedor
+      ORDER BY e.pk_entrada DESC;'
+      )
       ->fetchAll(\PDO::FETCH_ASSOC);
 
     return $entradas;
