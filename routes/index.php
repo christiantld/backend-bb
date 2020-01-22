@@ -11,6 +11,8 @@ use App\Controllers\SaidaController;
 use App\Controllers\CargoController;
 
 use App\Middlewares\JwtDateTimeMiddleware;
+use Slim\Http\Request;
+use Slim\Http\Response;
 use Tuupola\Middleware\JwtAuthentication;
 
 use function src\jwtAuth;
@@ -20,6 +22,13 @@ $app = new \Slim\App(slimConfiguration());
 
 //=================================
 
+$app->get('/', function (Request $request, Response $response, array $args) {
+
+  $response = $response->withJson([
+    "message" => "A API está rodando normalmente :)"
+  ]);
+  return $response;
+});
 $app->post('/login', AuthController::class . ':login');
 $app->post('/refresh-token', AuthController::class . ':refreshToken');
 $app->post('/registrar', UsuarioController::class . ':insertUsuario');
